@@ -2,13 +2,16 @@ package pl.car.automanager.persistence.entity;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.car.automanager.commons.enums.FuelEnum;
 import pl.car.automanager.persistence.repository.CarRepository;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
 public class CarTest {
 
     @Autowired
@@ -23,18 +26,14 @@ public class CarTest {
         //When
         Car dbCar = carRepository.findById(carId).orElse(null);
         //Then
-        try {
-            Assertions.assertNotNull(dbCar);
-        } finally {
-            carRepository.deleteById(carId);
-        }
+        Assertions.assertNotNull(dbCar);
     }
 
     @Test
     public void testFindByIdShouldThrowException() {
         //Given
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Car car = carRepository.findById(0L).orElseThrow(IllegalArgumentException::new);
+            carRepository.findById(0L).orElseThrow(IllegalArgumentException::new);
         });
     }
 
@@ -45,11 +44,7 @@ public class CarTest {
         //When
         Car savedCar = carRepository.save(car);
         //Then
-        try {
-            Assertions.assertNotNull(savedCar);
-        } finally {
-            carRepository.deleteById(savedCar.getId());
-        }
+        Assertions.assertNotNull(savedCar);
     }
 
     @Test
@@ -76,16 +71,22 @@ public class CarTest {
         //When
         Car updatedCar = carRepository.save(car);
         //Then
-        try {
-            Assertions.assertEquals("Ford", updatedCar.getBrand());
-            Assertions.assertEquals("Mondeo", updatedCar.getModel());
-            Assertions.assertEquals("TESTVIN", updatedCar.getVin());
-            Assertions.assertEquals("1.6 TEST", updatedCar.getEngine());
-            Assertions.assertEquals(3, updatedCar.getAmountOfDoors());
-            Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuelEnum());
-        } finally {
-            carRepository.deleteById(car.getId());
-        }
+        Assertions.assertEquals("Ford", updatedCar.getBrand());
+        Assertions.assertEquals("Mondeo", updatedCar.getModel());
+        Assertions.assertEquals("TESTVIN", updatedCar.getVin());
+        Assertions.assertEquals("1.6 TEST", updatedCar.getEngine());
+        Assertions.assertEquals(3, updatedCar.getAmountOfDoors());
+        Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuelEnum());
+    }
+
+    @Test
+    public void testDeleteCar() {
+        //Given
+        Car car = carRepository.save(createCar());
+        //When
+        carRepository.delete(car);
+        //Then
+        Assertions.assertFalse(carRepository.existsById(car.getId()));
     }
 
 
