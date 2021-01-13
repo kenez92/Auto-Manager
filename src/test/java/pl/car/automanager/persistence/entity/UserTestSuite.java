@@ -91,7 +91,7 @@ public class UserTestSuite {
                 .vin("VINTESTVINTESTVINTEST")
                 .engine("2.0 TDCI")
                 .amountOfDoors(5)
-                .fuelEnum(FuelEnum.PETROL)
+                .fuel(FuelEnum.PETROL)
                 .build();
     }
 

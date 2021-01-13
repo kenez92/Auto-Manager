@@ -34,9 +34,9 @@ public class User {
     private String password;
 
     @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY,
+    @OneToMany(fetch = FetchType.EAGER,
             targetEntity = Car.class,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             mappedBy = "user")
     private List<Car> cars = new ArrayList<>();
 

@@ -66,7 +66,7 @@ public class CarTestSuite {
         car.setVin("TESTVIN");
         car.setEngine("1.6 TEST");
         car.setAmountOfDoors(3);
-        car.setFuelEnum(FuelEnum.DIESEL);
+        car.setFuel(FuelEnum.DIESEL);
         //When
         Car updatedCar = carRepository.save(car);
         //Then
@@ -75,7 +75,7 @@ public class CarTestSuite {
         Assertions.assertEquals("TESTVIN", updatedCar.getVin());
         Assertions.assertEquals("1.6 TEST", updatedCar.getEngine());
         Assertions.assertEquals(3, updatedCar.getAmountOfDoors());
-        Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuelEnum());
+        Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuel());
         Assertions.assertNotNull(updatedCar.getUser());
     }
 
@@ -97,7 +97,7 @@ public class CarTestSuite {
                 .vin("VINTESTVINTESTVINTEST")
                 .engine("2.0 TDCI")
                 .amountOfDoors(5)
-                .fuelEnum(FuelEnum.PETROL)
+                .fuel(FuelEnum.PETROL)
                 .user(createUser())
                 .build();
     }
