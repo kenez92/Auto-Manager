@@ -38,4 +38,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     @Column(name = "FUEL", nullable = false)
     private FuelEnum fuelEnum;
+
+    @ManyToOne
+    private User user;
 }

@@ -12,11 +12,10 @@ import pl.car.automanager.persistence.repository.CarRepository;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class CarTest {
+public class CarTestSuite {
 
     @Autowired
     private CarRepository carRepository;
-
 
     @Test
     public void testFindById() {
@@ -77,6 +76,7 @@ public class CarTest {
         Assertions.assertEquals("1.6 TEST", updatedCar.getEngine());
         Assertions.assertEquals(3, updatedCar.getAmountOfDoors());
         Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuelEnum());
+        Assertions.assertNotNull(updatedCar.getUser());
     }
 
     @Test
@@ -98,6 +98,16 @@ public class CarTest {
                 .engine("2.0 TDCI")
                 .amountOfDoors(5)
                 .fuelEnum(FuelEnum.PETROL)
+                .user(createUser())
+                .build();
+    }
+
+    private User createUser() {
+        return User.builder()
+                .firstName("Test Name")
+                .email("test@test.pl")
+                .login("Test_Login")
+                .password("password")
                 .build();
     }
 }
