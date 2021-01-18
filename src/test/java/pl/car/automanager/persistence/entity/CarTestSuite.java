@@ -12,11 +12,10 @@ import pl.car.automanager.persistence.repository.CarRepository;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class CarTest {
+public class CarTestSuite {
 
     @Autowired
     private CarRepository carRepository;
-
 
     @Test
     public void testFindById() {
@@ -67,7 +66,7 @@ public class CarTest {
         car.setVin("TESTVIN");
         car.setEngine("1.6 TEST");
         car.setAmountOfDoors(3);
-        car.setFuelEnum(FuelEnum.DIESEL);
+        car.setFuel(FuelEnum.DIESEL);
         //When
         Car updatedCar = carRepository.save(car);
         //Then
@@ -76,7 +75,8 @@ public class CarTest {
         Assertions.assertEquals("TESTVIN", updatedCar.getVin());
         Assertions.assertEquals("1.6 TEST", updatedCar.getEngine());
         Assertions.assertEquals(3, updatedCar.getAmountOfDoors());
-        Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuelEnum());
+        Assertions.assertEquals(FuelEnum.DIESEL, updatedCar.getFuel());
+        Assertions.assertNotNull(updatedCar.getUser());
     }
 
     @Test
@@ -97,7 +97,17 @@ public class CarTest {
                 .vin("VINTESTVINTESTVINTEST")
                 .engine("2.0 TDCI")
                 .amountOfDoors(5)
-                .fuelEnum(FuelEnum.PETROL)
+                .fuel(FuelEnum.PETROL)
+                .user(createUser())
+                .build();
+    }
+
+    private User createUser() {
+        return User.builder()
+                .firstName("Test Name")
+                .email("test@test.pl")
+                .login("Test_Login")
+                .password("password")
                 .build();
     }
 }
