@@ -1,3 +1,4 @@
+/*
 package pl.car.automanager.persistence.entity.expanses;
 
 import lombok.*;
@@ -30,3 +31,4 @@ public class Vulcanization extends BaseExpanse {
     @JoinColumn(name = "expense_id")
     private Expense expense;
 }
+*/

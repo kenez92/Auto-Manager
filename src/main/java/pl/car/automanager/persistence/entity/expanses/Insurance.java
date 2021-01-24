@@ -1,3 +1,4 @@
+/*
 package pl.car.automanager.persistence.entity.expanses;
 
 import lombok.*;
@@ -32,3 +33,4 @@ public class Insurance extends BaseExpanse {
     private Expense expense;
 
 }
+*/

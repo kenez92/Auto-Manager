@@ -1,3 +1,4 @@
+/*
 package pl.car.automanager.persistence.entity.expanses;
 
 import lombok.*;
@@ -31,3 +32,4 @@ public class Service extends BaseExpanse {
     @JoinColumn(name = "expense_id")
     private Expense expense;
 }
+*/
