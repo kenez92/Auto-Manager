@@ -41,4 +41,7 @@ public class Car {
 
     @ManyToOne
     private User user;
+
+    @OneToOne
+    private Expense expense;
 }

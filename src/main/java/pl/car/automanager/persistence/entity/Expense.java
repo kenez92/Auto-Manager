@@ -1,6 +1,7 @@
 package pl.car.automanager.persistence.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.car.automanager.persistence.entity.expanses.Repair;
@@ -8,13 +9,14 @@ import pl.car.automanager.persistence.entity.expanses.Repair;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "EXPENSE")
 public class Expense {
     @Id
@@ -22,25 +24,15 @@ public class Expense {
     @Column(name = "ID")
     private Long id;
 
-    private UUID uuid = UUID.randomUUID();
-
     private LocalDate date;
 
     private BigDecimal cost;
 
-    @Embedded
-    @AttributeOverrides(
-            @AttributeOverride(name = "repairDescription", column  = @Column(name = "repair_description")))
-    private Repair repair;
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            targetEntity = Repair.class,
+            mappedBy = "expense")
+    private List<Repair> repairs = new ArrayList<>();
 
-    @Override
-    public boolean equals(Object that) {
-        return this == that ||
-                that instanceof Expense && Objects.equals(uuid, ((Expense) that).uuid);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid);
-    }
 }
