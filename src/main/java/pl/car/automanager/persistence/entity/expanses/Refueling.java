@@ -1,15 +1,9 @@
-/*
 package pl.car.automanager.persistence.entity.expanses;
 
 import lombok.*;
 import pl.car.automanager.persistence.entity.Expense;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,14 +12,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "REGISTRATION")
-public class Refueling extends BaseExpanse {
+public class Refueling {
 
-    private LocalDate date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    private Long id;
 
-    private BigDecimal cost;
+    private Double liters;
 
     @ManyToOne
-    @JoinColumn(name = "expense_id")
+    @JoinColumn(name = "EXPENSE_ID", nullable = false)
     private Expense expense;
 }
-*/

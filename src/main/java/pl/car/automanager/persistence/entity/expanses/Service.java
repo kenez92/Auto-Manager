@@ -1,14 +1,9 @@
-/*
 package pl.car.automanager.persistence.entity.expanses;
 
 import lombok.*;
 import pl.car.automanager.persistence.entity.Expense;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import java.math.BigDecimal;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
@@ -18,18 +13,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "SERVICE")
-public class Service extends BaseExpanse {
+public class Service {
 
-    private LocalDate date;
-
-    private LocalDate nextSerDate;
-
-    private BigDecimal cost;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    private Long id;
 
     private String distance;
 
+    private LocalDate nextServiceDate;
+
     @ManyToOne
-    @JoinColumn(name = "expense_id")
+    @JoinColumn(name = "EXPENSE_ID", nullable = false)
     private Expense expense;
 }
-*/
