@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import pl.car.automanager.persistence.entity.expanses.*;
 
 import javax.persistence.*;
@@ -33,67 +31,67 @@ public class Expense {
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Repair.class,
-            mappedBy = "expense")
-    @LazyCollection(LazyCollectionOption.FALSE)
+            mappedBy = "expense",
+            fetch = FetchType.LAZY)
     private List<Repair> repairs = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Insurance.class,
-            mappedBy = "expense")
-    @LazyCollection(LazyCollectionOption.FALSE)
+            mappedBy = "expense",
+            fetch = FetchType.LAZY)
     private List<Insurance> insurances = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Refueling.class,
-            mappedBy = "expense")
-    @LazyCollection(LazyCollectionOption.FALSE)
+            mappedBy = "expense",
+            fetch = FetchType.LAZY)
     private List<Refueling> refueling = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Registration.class,
-            mappedBy = "expense")
-    @LazyCollection(LazyCollectionOption.FALSE)
+            mappedBy = "expense",
+            fetch = FetchType.LAZY)
     private List<Registration> registrations = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Service.class,
-            mappedBy = "expense")
-    @LazyCollection(LazyCollectionOption.FALSE)
+            mappedBy = "expense",
+            fetch = FetchType.LAZY)
     private List<Service> services = new ArrayList<>();
 
 
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Vulcanization.class,
-            mappedBy = "expense")
-    @LazyCollection(LazyCollectionOption.FALSE)
+            mappedBy = "expense",
+            fetch = FetchType.LAZY)
     private List<Vulcanization> vulcanization = new ArrayList<>();
 
-    public void addRepair(Repair repair){
+    public void addRepair(Repair repair) {
         repairs.add(repair);
     }
 
-    public void addInsurance(Insurance insurance){
+    public void addInsurance(Insurance insurance) {
         insurances.add(insurance);
     }
 
-    public void addRefueling(Refueling refueling){
+    public void addRefueling(Refueling refueling) {
         this.refueling.add(refueling);
     }
 
-    public void addRegistration(Registration registration){
+    public void addRegistration(Registration registration) {
         registrations.add(registration);
     }
 
-    public void addRService(Service service){
+    public void addRService(Service service) {
         services.add(service);
     }
 
-    public void addVulcanization(Vulcanization vulcanization){
+    public void addVulcanization(Vulcanization vulcanization) {
         this.vulcanization.add(vulcanization);
     }
 }
