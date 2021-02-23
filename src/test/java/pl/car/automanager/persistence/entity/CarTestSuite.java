@@ -8,7 +8,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.car.automanager.commons.enums.FuelEnum;
+import pl.car.automanager.persistence.entity.expanses.Repair;
 import pl.car.automanager.persistence.repository.CarRepository;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -89,6 +95,16 @@ public class CarTestSuite {
         Assertions.assertFalse(carRepository.existsById(car.getId()));
     }
 
+    @Test
+    public void testAddNewRepairExpanse() {
+        //Given
+        Car car = carRepository.save(createCar());
+        //when
+        car.setExpense(createExpense());
+        //then
+        Assertions.assertFalse(car.getExpense().getRepairs().isEmpty());
+    }
+
 
     private Car createCar() {
         return Car.builder()
@@ -108,6 +124,20 @@ public class CarTestSuite {
                 .email("test@test.pl")
                 .login("Test_Login")
                 .password("password")
+                .build();
+    }
+
+    private Expense createExpense() {
+        return Expense.builder()
+                .cost(new BigDecimal("1500"))
+                .date(LocalDate.now())
+                .repairs(Collections.singletonList(createRepair()))
+                .build();
+    }
+
+    private Repair createRepair() {
+        return Repair.builder()
+                .repairDescription("Wymiana klocków hamulcowych")
                 .build();
     }
 }
