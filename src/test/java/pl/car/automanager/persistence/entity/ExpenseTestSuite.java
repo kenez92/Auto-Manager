@@ -9,7 +9,6 @@ import pl.car.automanager.persistence.entity.expanses.*;
 import pl.car.automanager.persistence.repository.ExpenseRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,9 +45,9 @@ class ExpenseTestSuite {
         //given
         Expense expense = expenseRepository.save(createExpense());
         //when
-        expense.setCost(new BigDecimal("1500"));
+        expense.setSummaryCost(new BigDecimal("1500"));
         //then
-        assertEquals("1500", expense.getCost().toString());
+        assertEquals("1500", expense.getSummaryCost().toString());
     }
 
     @Test
@@ -109,11 +108,11 @@ class ExpenseTestSuite {
     public void addNewService(){
         //given
         Expense expense = createExpense();
-        Service service = new Service();
+        ServiceCar serviceCar = new ServiceCar();
         //when
-        expense.addRService(service);
+        expense.addRService(serviceCar);
         //then
-        assertFalse(expense.getServices().isEmpty());
+        assertFalse(expense.getServiceCars().isEmpty());
     }
 
     @Test
@@ -128,13 +127,12 @@ class ExpenseTestSuite {
     }
     private Expense createExpense() {
         return Expense.builder()
-                .date(LocalDate.now())
-                .cost(new BigDecimal("2000"))
+                .summaryCost(new BigDecimal("2000"))
                 .insurances(new ArrayList<>())
                 .refueling(new ArrayList<>())
                 .registrations(new ArrayList<>())
                 .repairs(new ArrayList<>())
-                .services(new ArrayList<>())
+                .serviceCars(new ArrayList<>())
                 .vulcanization(new ArrayList<>())
                 .build();
     }

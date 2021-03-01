@@ -43,5 +43,5 @@ public class Car {
     private User user;
 
     @OneToOne
-    private Expense expense;
+    private Expense expense = new Expense();
 }

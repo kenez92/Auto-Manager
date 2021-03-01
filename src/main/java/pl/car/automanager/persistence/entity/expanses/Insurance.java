@@ -4,6 +4,7 @@ import lombok.*;
 import pl.car.automanager.persistence.entity.Expense;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -19,6 +20,10 @@ public class Insurance {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
+
+    private LocalDate date;
+
+    private BigDecimal cost;
 
     private LocalDate startDate;
 

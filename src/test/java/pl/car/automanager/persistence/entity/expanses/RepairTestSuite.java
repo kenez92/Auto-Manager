@@ -11,7 +11,6 @@ import pl.car.automanager.persistence.repository.ExpenseRepository;
 import pl.car.automanager.persistence.repository.RepairRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -80,13 +79,12 @@ class RepairTestSuite {
     private Expense createExpense() {
         return Expense.builder()
                 .id(1L)
-                .date(LocalDate.now())
-                .cost(new BigDecimal("2000"))
+                .summaryCost(BigDecimal.ZERO)
                 .insurances(new ArrayList<>())
                 .refueling(new ArrayList<>())
                 .registrations(new ArrayList<>())
                 .repairs(new ArrayList<>())
-                .services(new ArrayList<>())
+                .serviceCars(new ArrayList<>())
                 .vulcanization(new ArrayList<>())
                 .build();
     }
