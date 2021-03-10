@@ -21,10 +21,13 @@ public class Repair {
     @Column(name = "ID")
     private Long id;
 
+    @Column
     private LocalDate date;
 
+    @Column
     private BigDecimal cost;
 
+    @Column
     private String repairDescription;
 
     @ManyToOne

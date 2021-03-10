@@ -21,12 +21,16 @@ public class Registration {
     @Column(name = "ID")
     private Long id;
 
+    @Column
     private LocalDate date;
 
+    @Column
     private BigDecimal cost;
 
+    @Column
     private LocalDate nextRegDate;
 
+    @Column
     private String faults;
 
     @ManyToOne

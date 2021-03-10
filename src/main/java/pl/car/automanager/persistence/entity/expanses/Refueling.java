@@ -21,10 +21,13 @@ public class Refueling {
     @Column(name = "ID")
     private Long id;
 
+    @Column
     private LocalDate date;
 
+    @Column
     private BigDecimal cost;
 
+    @Column
     private Double liters;
 
     @ManyToOne

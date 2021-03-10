@@ -21,14 +21,19 @@ public class Insurance {
     @Column(name = "ID")
     private Long id;
 
+    @Column()
     private LocalDate date;
 
+    @Column
     private BigDecimal cost;
 
+    @Column
     private LocalDate startDate;
 
+    @Column
     private LocalDate endDate;
 
+    @Column
     private String description;
 
     @ManyToOne

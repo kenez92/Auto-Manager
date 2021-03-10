@@ -39,9 +39,9 @@ public class Car {
     @Column(name = "FUEL", nullable = false)
     private FuelEnum fuel;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @OneToOne
-    private Expense expense = new Expense();
+    @OneToOne(cascade = CascadeType.ALL)
+    private Expense expense;
 }

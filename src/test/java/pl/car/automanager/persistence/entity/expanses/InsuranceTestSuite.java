@@ -86,7 +86,7 @@ class InsuranceTestSuite {
                 .refueling(new ArrayList<>())
                 .registrations(new ArrayList<>())
                 .repairs(new ArrayList<>())
-                .serviceCars(new ArrayList<>())
+                .maintenances(new ArrayList<>())
                 .vulcanization(new ArrayList<>())
                 .build();
     }

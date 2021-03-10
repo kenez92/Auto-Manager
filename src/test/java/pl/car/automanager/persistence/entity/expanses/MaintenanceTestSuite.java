@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.car.automanager.persistence.entity.Expense;
 import pl.car.automanager.persistence.repository.ExpenseRepository;
-import pl.car.automanager.persistence.repository.ServiceRepository;
+import pl.car.automanager.persistence.repository.MaintenanceRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-class ServiceCarTestSuite {
+class MaintenanceTestSuite {
 
     @Autowired
-    ServiceRepository serviceRepository;
+    MaintenanceRepository maintenanceRepository;
 
     @Autowired
     ExpenseRepository expenseRepository;
@@ -29,48 +29,47 @@ class ServiceCarTestSuite {
     @Test
     public void shouldAddService() {
         //given
-        ServiceCar serviceCar = serviceRepository.save(createService());
+        Maintenance maintenance = maintenanceRepository.save(createService());
         Expense expense = expenseRepository.save(createExpense());
         //when
-        serviceCar.setExpense(expense);
-        expense.addRService(serviceCar);
+        maintenance.setExpense(expense);
+        expense.addRService(maintenance);
         //then
-        assertEquals(LocalDate.now().plusMonths(12),
-                expense.getServiceCars().get(0).getNextServiceDate());
+        assertEquals("15000", maintenance.getDistance());
     }
 
     @Test
     public void shouldGetServiceFindById() {
         //given
-        ServiceCar serviceCar = serviceRepository.save(createService());
+        Maintenance maintenance = maintenanceRepository.save(createService());
         //when
-        ServiceCar getServiceCar = serviceRepository.findById(serviceCar.getId()).orElse(null);
+        Maintenance getMaintenance = maintenanceRepository.findById(maintenance.getId()).orElse(null);
         //then
-        assertNotNull(getServiceCar);
+        assertNotNull(getMaintenance);
     }
 
     @Test
     public void shouldUpdateService() {
         //given
-        ServiceCar serviceCar = serviceRepository.save(createService());
+        Maintenance maintenance = maintenanceRepository.save(createService());
         //when
-        serviceCar.setDistance("25000");
+        maintenance.setDistance("25000");
         //then
-        assertNotEquals("15000", serviceCar.getDistance());
+        assertNotEquals("15000", maintenance.getDistance());
     }
 
     @Test
     public void shouldThrowExceptionForDeleteService() {
         //given
-        ServiceCar serviceCar = serviceRepository.save(createService());
+        Maintenance maintenance = maintenanceRepository.save(createService());
         //when
         //then
         assertThrows(DataIntegrityViolationException.class, () ->
-                serviceRepository.existsById(serviceCar.getId()));
+                maintenanceRepository.existsById(maintenance.getId()));
     }
 
-    private ServiceCar createService() {
-        return ServiceCar.builder()
+    private Maintenance createService() {
+        return Maintenance.builder()
                 .distance("15000")
                 .nextServiceDate(LocalDate.now().plusMonths(12))
                 .expense(createExpense())
@@ -85,7 +84,7 @@ class ServiceCarTestSuite {
                 .refueling(new ArrayList<>())
                 .registrations(new ArrayList<>())
                 .repairs(new ArrayList<>())
-                .serviceCars(new ArrayList<>())
+                .maintenances(new ArrayList<>())
                 .vulcanization(new ArrayList<>())
                 .build();
     }

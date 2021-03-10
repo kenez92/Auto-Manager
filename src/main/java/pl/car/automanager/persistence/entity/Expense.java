@@ -1,9 +1,6 @@
 package pl.car.automanager.persistence.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.car.automanager.persistence.entity.expanses.*;
 
 import javax.persistence.*;
@@ -23,13 +20,15 @@ public class Expense {
     @Column(name = "ID")
     private Long id;
 
-    private BigDecimal summaryCost = BigDecimal.ZERO;
+    @Column
+    private BigDecimal summaryCost;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             targetEntity = Repair.class,
             mappedBy = "expense",
             fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Repair> repairs = new ArrayList<>();
 
     @OneToMany(
@@ -37,6 +36,7 @@ public class Expense {
             targetEntity = Insurance.class,
             mappedBy = "expense",
             fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Insurance> insurances = new ArrayList<>();
 
     @OneToMany(
@@ -44,6 +44,7 @@ public class Expense {
             targetEntity = Refueling.class,
             mappedBy = "expense",
             fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Refueling> refueling = new ArrayList<>();
 
     @OneToMany(
@@ -51,14 +52,16 @@ public class Expense {
             targetEntity = Registration.class,
             mappedBy = "expense",
             fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Registration> registrations = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            targetEntity = ServiceCar.class,
+            targetEntity = Maintenance.class,
             mappedBy = "expense",
             fetch = FetchType.LAZY)
-    private List<ServiceCar> serviceCars = new ArrayList<>();
+    @Builder.Default
+    private List<Maintenance> maintenances = new ArrayList<>();
 
 
     @OneToMany(
@@ -66,6 +69,7 @@ public class Expense {
             targetEntity = Vulcanization.class,
             mappedBy = "expense",
             fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Vulcanization> vulcanization = new ArrayList<>();
 
     public void addRepair(Repair repair) {
@@ -96,10 +100,10 @@ public class Expense {
         }
     }
 
-    public void addRService(ServiceCar serviceCar) {
-        serviceCars.add(serviceCar);
-        if(serviceCar.getCost() != null) {
-            summaryCost = serviceCar.getCost().add(getSummaryCost());
+    public void addRService(Maintenance maintenance) {
+        maintenances.add(maintenance);
+        if(maintenance.getCost() != null) {
+            summaryCost = maintenance.getCost().add(getSummaryCost());
         }
     }
 

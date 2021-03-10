@@ -108,11 +108,11 @@ class ExpenseTestSuite {
     public void addNewService(){
         //given
         Expense expense = createExpense();
-        ServiceCar serviceCar = new ServiceCar();
+        Maintenance maintenance = new Maintenance();
         //when
-        expense.addRService(serviceCar);
+        expense.addRService(maintenance);
         //then
-        assertFalse(expense.getServiceCars().isEmpty());
+        assertFalse(expense.getMaintenances().isEmpty());
     }
 
     @Test
@@ -132,7 +132,7 @@ class ExpenseTestSuite {
                 .refueling(new ArrayList<>())
                 .registrations(new ArrayList<>())
                 .repairs(new ArrayList<>())
-                .serviceCars(new ArrayList<>())
+                .maintenances(new ArrayList<>())
                 .vulcanization(new ArrayList<>())
                 .build();
     }
