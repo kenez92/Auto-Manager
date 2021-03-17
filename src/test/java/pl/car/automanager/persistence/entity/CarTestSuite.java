@@ -12,8 +12,6 @@ import pl.car.automanager.persistence.entity.expanses.Repair;
 import pl.car.automanager.persistence.repository.CarRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Collections;
 
 @ExtendWith(SpringExtension.class)
@@ -37,9 +35,8 @@ public class CarTestSuite {
     @Test
     public void testFindByIdShouldThrowException() {
         //Given
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            carRepository.findById(0L).orElseThrow(IllegalArgumentException::new);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+            carRepository.findById(0L).orElseThrow(IllegalArgumentException::new));
     }
 
     @Test
@@ -58,9 +55,8 @@ public class CarTestSuite {
         Car car = createCar();
         car.setBrand(null);
         //When & Then
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            carRepository.save(car);
-        });
+        Assertions.assertThrows(DataIntegrityViolationException.class, () ->
+            carRepository.save(car));
     }
 
     @Test
@@ -129,8 +125,7 @@ public class CarTestSuite {
 
     private Expense createExpense() {
         return Expense.builder()
-                .cost(new BigDecimal("1500"))
-                .date(LocalDate.now())
+                .summaryCost(new BigDecimal("1500"))
                 .repairs(Collections.singletonList(createRepair()))
                 .build();
     }

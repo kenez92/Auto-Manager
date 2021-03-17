@@ -4,6 +4,8 @@ import lombok.*;
 import pl.car.automanager.persistence.entity.Expense;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -11,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "REGISTRATION")
+@Table(name = "REFUELING")
 public class Refueling {
 
     @Id
@@ -19,6 +21,13 @@ public class Refueling {
     @Column(name = "ID")
     private Long id;
 
+    @Column
+    private LocalDate date;
+
+    @Column
+    private BigDecimal cost;
+
+    @Column
     private Double liters;
 
     @ManyToOne

@@ -4,6 +4,8 @@ import lombok.*;
 import pl.car.automanager.persistence.entity.Expense;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,6 +21,13 @@ public class Repair {
     @Column(name = "ID")
     private Long id;
 
+    @Column
+    private LocalDate date;
+
+    @Column
+    private BigDecimal cost;
+
+    @Column
     private String repairDescription;
 
     @ManyToOne

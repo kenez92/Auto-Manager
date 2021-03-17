@@ -4,6 +4,7 @@ import lombok.*;
 import pl.car.automanager.persistence.entity.Expense;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -20,10 +21,19 @@ public class Insurance {
     @Column(name = "ID")
     private Long id;
 
+    @Column()
+    private LocalDate date;
+
+    @Column
+    private BigDecimal cost;
+
+    @Column
     private LocalDate startDate;
 
+    @Column
     private LocalDate endDate;
 
+    @Column
     private String description;
 
     @ManyToOne

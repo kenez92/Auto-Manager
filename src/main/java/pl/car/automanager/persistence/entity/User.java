@@ -40,4 +40,11 @@ public class User {
             mappedBy = "user")
     private List<Car> cars = new ArrayList<>();
 
+    public void addCar(Car car){
+        if(cars == null){
+            cars = new ArrayList<>();
+        }
+        cars.add(car);
+    }
+
 }
