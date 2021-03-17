@@ -110,7 +110,7 @@ class ExpenseTestSuite {
         Expense expense = createExpense();
         Maintenance maintenance = new Maintenance();
         //when
-        expense.addRService(maintenance);
+        expense.addMaintenance(maintenance);
         //then
         assertFalse(expense.getMaintenances().isEmpty());
     }

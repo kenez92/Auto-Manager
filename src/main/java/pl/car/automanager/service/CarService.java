@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.car.automanager.boundary.car.CarUseCase;
 import pl.car.automanager.persistence.entity.Car;
+import pl.car.automanager.persistence.entity.Expense;
+import pl.car.automanager.persistence.entity.expanses.*;
 import pl.car.automanager.persistence.repository.CarRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +32,13 @@ class CarService implements CarUseCase {
     }
 
     @Override
+    @Transactional
     public Car addCar(CreateCarCommand command) {
         return carRepository.save(toCar(command));
     }
 
     @Override
+    @Transactional
     public UpdateCarResponse updateCar(UpdateCarCommand command) {
         return carRepository
                 .findById(command.getId())
@@ -43,6 +48,78 @@ class CarService implements CarUseCase {
                 })
                 .orElseGet(() -> new UpdateCarResponse(
                         false, Collections.singletonList("Car not found")));
+    }
+
+    @Override
+    @Transactional
+    public UpdateCarResponse addInsuranceExpense(CreateExpenseInsuranceCommand command) {
+        return carRepository.findById(command.getId())
+                .map(car -> {
+                    car.getExpense().addInsurance(toInsurance(command,car.getExpense()));
+                    return UpdateCarResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateCarResponse(false, Collections.singletonList("Car not found")));
+    }
+
+    @Override
+    @Transactional
+    public UpdateCarResponse addMaintenanceExpense(CreateExpenseMaintenanceCommand command) {
+        return carRepository.findById(command.getId())
+                .map(car -> {
+                    car.getExpense().addMaintenance(toMaintenance(command,car.getExpense()));
+                    return UpdateCarResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateCarResponse(false, Collections.singletonList("Car not found")));
+    }
+
+    @Override
+    @Transactional
+    public UpdateCarResponse addRefuelingExpense(CreateExpenseRefuelingCommand command) {
+        return carRepository
+                .findById(command.getId())
+                .map(car -> {
+                    car.getExpense().addRefueling(toRefueling(command, car.getExpense()));
+                    return UpdateCarResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateCarResponse(
+                        false, Collections.singletonList("Car not found")));
+    }
+
+    @Override
+    @Transactional
+    public UpdateCarResponse addRegisterExpense(CreateExpenseRegisterCommand command) {
+        return carRepository
+                .findById(command.getId())
+                .map(car -> {
+                    car.getExpense().addRegistration(toRegister(command, car.getExpense()));
+                    return UpdateCarResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateCarResponse(
+                        false, Collections.singletonList("Car not found")));
+    }
+
+    @Override
+    @Transactional
+    public UpdateCarResponse addVulcanizationExpense(CreateExpenseVulcanizationCommand command) {
+        return carRepository
+                .findById(command.getId())
+                .map(car -> {
+                    car.getExpense().addVulcanization(toVulcanization(command, car.getExpense()));
+                    return UpdateCarResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateCarResponse(
+                        false, Collections.singletonList("Car not found")));
+    }
+
+    @Override
+    @Transactional
+    public UpdateCarResponse addRepairExpense(CreateExpenseRepairCommand command) {
+        return carRepository.findById(command.getId())
+                .map(car -> {
+                    car.getExpense().addRepair(toRepair(command,car.getExpense()));
+                    return UpdateCarResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateCarResponse(false, Collections.singletonList("Car not found")));
     }
 
     @Override
@@ -60,6 +137,65 @@ class CarService implements CarUseCase {
                 .amountOfDoors(command.getAmountOfDoors())
                 .fuel(command.getFuel())
                 .expense(command.getExpense())
+                .user(command.getUser())
+                .build();
+    }
+
+    private Insurance toInsurance(CreateExpenseInsuranceCommand command, Expense expense) {
+        return Insurance.builder()
+                .date(command.getDate())
+                .cost(command.getCost())
+                .startDate(command.getStart())
+                .endDate(command.getEnd())
+                .description(command.getDescription())
+                .expense(expense)
+                .build();
+    }
+
+    private Maintenance toMaintenance(CreateExpenseMaintenanceCommand command, Expense expense) {
+        return Maintenance.builder()
+                .date(command.getDate())
+                .cost(command.getCost())
+                .distance(command.getDistance())
+                .nextServiceDate(command.getNextServiceDate())
+                .expense(expense)
+                .build();
+    }
+
+    private Refueling toRefueling(CreateExpenseRefuelingCommand command, Expense expense) {
+        return Refueling.builder()
+                .date(command.getDate())
+                .cost(command.getCost())
+                .liters(command.getLiters())
+                .expense(expense)
+                .build();
+    }
+
+    private Registration toRegister(CreateExpenseRegisterCommand command, Expense expense) {
+        return Registration.builder()
+                .date(command.getDate())
+                .cost(command.getCost())
+                .nextRegDate(command.getDate())
+                .faults(command.getFaults())
+                .expense(expense)
+                .build();
+    }
+
+    private Repair toRepair(CreateExpenseRepairCommand command, Expense expense) {
+        return Repair.builder()
+                .date(command.getDate())
+                .cost(command.getCost())
+                .repairDescription(command.getDescription())
+                .expense(expense)
+                .build();
+    }
+
+    private Vulcanization toVulcanization(CreateExpenseVulcanizationCommand command, Expense expense) {
+        return Vulcanization.builder()
+                .date(command.getDate())
+                .cost(command.getCost())
+                .description(command.getDescription())
+                .expense(expense)
                 .build();
     }
 

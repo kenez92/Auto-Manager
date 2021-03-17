@@ -1,5 +1,6 @@
 package pl.car.automanager.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,6 +41,7 @@ public class Car {
     private FuelEnum fuel;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("cars")
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)

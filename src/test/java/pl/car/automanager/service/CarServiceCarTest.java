@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static pl.car.automanager.boundary.car.CarUseCase.CreateCarCommand;
+import static pl.car.automanager.boundary.car.CarUseCase.UpdateCarCommand;
 import static pl.car.automanager.commons.enums.FuelEnum.DIESEL;
 import static pl.car.automanager.commons.enums.FuelEnum.PETROL;
 
@@ -126,7 +127,7 @@ class CarServiceCarTest {
         //given
         Car savedCar = carService.addCar(secondCar);
         //when
-        savedCar.getExpense().addRService(Maintenance.builder().build());
+        savedCar.getExpense().addMaintenance(Maintenance.builder().build());
         //then
         assertTrue(savedCar.getExpense().getMaintenances().size() > 0);
     }
@@ -146,7 +147,7 @@ class CarServiceCarTest {
         //given
         firstCar.getExpense().addRepair(Repair.builder().cost(new BigDecimal("250")).build());
         firstCar.getExpense().addInsurance(Insurance.builder().cost(new BigDecimal("500")).build());
-        firstCar.getExpense().addRService(Maintenance.builder().cost(new BigDecimal("650")).build());
+        firstCar.getExpense().addMaintenance(Maintenance.builder().cost(new BigDecimal("650")).build());
         firstCar.getExpense().addVulcanization(Vulcanization.builder().cost(new BigDecimal("40")).build());
         firstCar.getExpense().addRegistration(Registration.builder().cost(new BigDecimal("150")).build());
         firstCar.getExpense().addRefueling(Refueling.builder().cost(new BigDecimal("250")).build());
@@ -156,6 +157,25 @@ class CarServiceCarTest {
         assertTrue(summary.contains("1840"));
     }
 
+    @Test
+    public void shouldUpdateFieldCar() {
+        //given
+        Car beforeUpdateCar = carService.addCar(createCarTwo());
+        Long carId = beforeUpdateCar.getId();
+        UpdateCarCommand command =
+                new UpdateCarCommand(carId, "Mazda", "3", "JGJDH23", "700", 3, DIESEL);
+        //when
+        carService.updateCar(command);
+        Car afterUpdate = carRepository.getOne(carId);
+        //then
+        assertEquals("Mazda", afterUpdate.getBrand());
+        assertEquals("3", afterUpdate.getModel());
+        assertEquals("JGJDH23", afterUpdate.getVin());
+        assertEquals("700", afterUpdate.getEngine());
+        assertEquals(3, afterUpdate.getAmountOfDoors());
+        assertEquals(DIESEL, afterUpdate.getFuel());
+    }
+
     private CreateCarCommand createCarOne() {
         return new CreateCarCommand("Opel", "Astra", "DSSAD556654", "1450", 4, PETROL, createUser(), createExpense());
     }
@@ -163,6 +183,7 @@ class CarServiceCarTest {
     private CreateCarCommand createCarTwo() {
         return new CreateCarCommand("Ford", "Ka", "DFFAD556654", "1540", 3, DIESEL, createUser(), createExpense());
     }
+
 
     private Expense createExpense() {
         return Expense.builder()

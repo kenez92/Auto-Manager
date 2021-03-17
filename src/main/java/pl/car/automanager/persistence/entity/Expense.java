@@ -1,5 +1,6 @@
 package pl.car.automanager.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import pl.car.automanager.persistence.entity.expanses.*;
 
@@ -29,6 +30,7 @@ public class Expense {
             mappedBy = "expense",
             fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnoreProperties("expense")
     private List<Repair> repairs = new ArrayList<>();
 
     @OneToMany(
@@ -37,6 +39,7 @@ public class Expense {
             mappedBy = "expense",
             fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnoreProperties("expense")
     private List<Insurance> insurances = new ArrayList<>();
 
     @OneToMany(
@@ -45,6 +48,7 @@ public class Expense {
             mappedBy = "expense",
             fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnoreProperties("expense")
     private List<Refueling> refueling = new ArrayList<>();
 
     @OneToMany(
@@ -53,6 +57,7 @@ public class Expense {
             mappedBy = "expense",
             fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnoreProperties("expense")
     private List<Registration> registrations = new ArrayList<>();
 
     @OneToMany(
@@ -61,6 +66,7 @@ public class Expense {
             mappedBy = "expense",
             fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnoreProperties("expense")
     private List<Maintenance> maintenances = new ArrayList<>();
 
 
@@ -70,6 +76,7 @@ public class Expense {
             mappedBy = "expense",
             fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnoreProperties("expense")
     private List<Vulcanization> vulcanization = new ArrayList<>();
 
     public void addRepair(Repair repair) {
@@ -100,7 +107,7 @@ public class Expense {
         }
     }
 
-    public void addRService(Maintenance maintenance) {
+    public void addMaintenance(Maintenance maintenance) {
         maintenances.add(maintenance);
         if(maintenance.getCost() != null) {
             summaryCost = maintenance.getCost().add(getSummaryCost());

@@ -33,7 +33,7 @@ class MaintenanceTestSuite {
         Expense expense = expenseRepository.save(createExpense());
         //when
         maintenance.setExpense(expense);
-        expense.addRService(maintenance);
+        expense.addMaintenance(maintenance);
         //then
         assertEquals("15000", maintenance.getDistance());
     }
